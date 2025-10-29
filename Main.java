@@ -41,6 +41,7 @@ public class Main {
                     int cpf = scannerInt.nextInt();
                     Cliente cliente1 = new Cliente(nomeCliente, cpf);
                     clientes.add(cliente1);
+                    System.out.println("Cliente cadastrado!");
                     break;
                 case 2:
                     System.out.println("Id do  produto");
@@ -55,11 +56,13 @@ public class Main {
                     produtos.add(produto);
                     break;
                 case 3:
+                    System.out.println("Lista de clientes cadastrados:");
                     for (Cliente cliente : clientes) {
-                        System.out.println(cliente.getCpf()+" "+cliente.getNome());
-                    }
+                        System.out.println("Nome: "+cliente.getNome()+" CPF: "+cliente.getCpf());
+                    }                    
                     break;
                 case 4:
+                    System.out.println("Lista de produtos cadastrados:");
                     for (Produto produt : produtos) {
                         System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco()+" Qunatidade: "+produt.getQuantidade());
                     }
