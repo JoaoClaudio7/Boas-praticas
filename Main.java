@@ -27,7 +27,7 @@ public class Main {
             System.out.println("3 - Listar clientes");
             System.out.println("4 - Listar produtos");
             System.out.println("5 - Criar pedido");
-            System.out.println("6 - Adiconar pedido no carrinho");
+            System.out.println("6 - Adicionar pedido no carrinho");
             System.out.println("7 - Listar pedidos do carrinho");
             System.out.println("8 - Calcular frete");
             System.out.println("9 - Fazer pagamento");
@@ -35,17 +35,41 @@ public class Main {
             opcao = in.nextInt();
             switch (opcao) {
                 case 1:
+                    //VERIFICAR SE CPF JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
                     System.out.println("Nome do cliente");
                     String nomeCliente = scannerdoString.nextLine();
                     System.out.println("Digite o CPF do cliente");
-                    int cpf = scannerInt.nextInt();
+                    int cpf = scannerInt.nextInt();                 
+                    boolean cpfExistente = false;
+                    for (Cliente c : clientes) {
+                        if (c.getCpf() == cpf) {
+                            cpfExistente = true;
+                            break;
+                        }
+                    }
+                    if (cpfExistente) {
+                        System.out.println("CPF já cadastrado. Tente novamente.");
+                        break;
+                    }
                     Cliente cliente1 = new Cliente(nomeCliente, cpf);
                     clientes.add(cliente1);
                     System.out.println("Cliente cadastrado!");
                     break;
                 case 2:
+                //VERIFICAR SE ID JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
                     System.out.println("Id do  produto");
                     int id = scannerInt.nextInt();
+                    boolean idExistente = false;
+                    for (Produto p : produtos) {
+                        if (p.getId() == id) {
+                            idExistente = true;
+                            break;
+                        }
+                    }
+                    if (idExistente) {
+                        System.out.println("ID já cadastrado. Tente novamente.");
+                        break;
+                    }
                     System.out.println("Digite o nome do produto");
                     String nomeProduto = scannerdoString.nextLine();
                     System.out.println("Preço do produto");
@@ -64,7 +88,7 @@ public class Main {
                 case 4:
                     System.out.println("Lista de produtos cadastrados:");
                     for (Produto produt : produtos) {
-                        System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco()+" Qunatidade: "+produt.getQuantidade());
+                        System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco()+" Quantidade: "+produt.getQuantidade());
                     }
                     break;
                 case 5:
