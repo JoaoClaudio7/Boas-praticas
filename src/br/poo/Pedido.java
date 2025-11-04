@@ -58,28 +58,28 @@ public class Pedido{
 
     public void listaProdutosClientes(){
         for (Produto produto : itens) {
-            System.out.println("Id: "+produto.getId()+ " Nome: "+produto.getNomeProduto()+" preço: "+produto.getPreco()+" Quantidade: "+produto.getQuantidade());
+            System.out.println("Id: "+produto.getId()+ " Nome: "+produto.getNomeProduto()+" preço: "+produto.getPreco());
         }
     }
 
     public void listarProdutos(){
         for (Produto produto : itens) {
-            System.out.println("Id: "+produto.getId()+" Nome: "+produto.getNomeProduto()+" Preço: "+produto.getPreco()+" "+produto.getQuantidade());
+            System.out.println("Id: "+produto.getId()+" Nome: "+produto.getNomeProduto()+" Preço: "+produto.getPreco());
         }
     }
 
-    public double pesoTotal() {
+    /*public double pesoTotal() {
         double pesoTotal = 0;
         for (Produto produto : itens) {
             pesoTotal = produto.getPeso();
         }
         return pesoTotal;
     }
-
+*/
     public void calcularTotal() {
         double valorTotalPedido = 0;
         for (Produto produto : itens) {
-            valorTotalPedido += produto.getPreco()*produto.getQuantidade();
+            valorTotalPedido += produto.getPreco();
         }
         setValorTotal(valorTotalPedido);
     }

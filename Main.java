@@ -26,11 +26,10 @@ public class Main {
             System.out.println("2 - Cadastrar produto");
             System.out.println("3 - Listar clientes");
             System.out.println("4 - Listar produtos");
-            System.out.println("5 - Criar pedido");
-            System.out.println("6 - Adicionar pedido no carrinho");
+            System.out.println("5 - Adicionar itens no carrinho");
+            System.out.println("6 - aq na sequencia do item 5: fechar conta - exibir o valor total, ou cancelar");
             System.out.println("7 - Listar pedidos do carrinho");
-            System.out.println("8 - Calcular frete");
-            System.out.println("9 - Fazer pagamento");
+            System.out.println("8 - Fazer pagamento");
             System.out.println("0 - Sair");
             opcao = in.nextInt();
             switch (opcao) {
@@ -74,9 +73,9 @@ public class Main {
                     String nomeProduto = scannerdoString.nextLine();
                     System.out.println("Preço do produto");
                     double preco = scannerInt.nextDouble();
-                    System.out.println("Quantidade");
-                    int quantidade = scannerInt.nextInt();
-                    Produto produto = new Produto(id, nomeProduto, preco, quantidade);
+                    //System.out.println("Quantidade");
+                    //int quantidade = scannerInt.nextInt();
+                    Produto produto = new Produto(id, nomeProduto, preco);
                     produtos.add(produto);
                     break;
                 case 3:
@@ -88,7 +87,7 @@ public class Main {
                 case 4:
                     System.out.println("Lista de produtos cadastrados:");
                     for (Produto produt : produtos) {
-                        System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco()+" Quantidade: "+produt.getQuantidade());
+                        System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco());
                     }
                     break;
                 case 5:
@@ -99,6 +98,9 @@ public class Main {
                     if(clienteBuscado != null){
                         itenPedido.setCliente(clienteBuscado);
                         pedidos.add(itenPedido);
+                    }
+                    else {
+                        System.out.println("Cliente nao encontrado!");
                     }
                     break;
                 case 6:
@@ -112,15 +114,15 @@ public class Main {
                     int produtoId = scannerInt.nextInt();
                     Produto buscarProduto = itenCarrinho.buscarProduto(produtos, produtoId);
                     
-                    System.out.println("Digite a quantidade");
+                    /*System.out.println("Digite a quantidade");
                     int quantidadeCarrinho = scannerInt.nextInt();
 
                     System.out.println("Digite o peso so produto");
-                    double peso = scannerInt.nextInt();
+                    double peso = scannerInt.nextInt();*/
                     if(buscarCliente == null || buscarProduto == null){
                         System.out.println("CPF ou Id invalido");
                     }else{
-                        Produto produtoCarrinho = new Produto(produtoId, buscarProduto.getNomeProduto(), buscarProduto.getPreco(), quantidadeCarrinho, peso);
+                        Produto produtoCarrinho = new Produto(produtoId, buscarProduto.getNomeProduto(), buscarProduto.getPreco());
                         for (Pedido pedido : pedidos) {
                             int cpfParaBuscar = pedido.getCliente().getCpf(); 
                             if (cpfParaBuscar == buscarCpf) {
