@@ -53,27 +53,20 @@ public class Main {
                     else {
                     System.out.println("Digite o nome do produto");
                     String nomeProduto = scannerdoString.nextLine();
-                    System.out.println("Digite o codigo do produto");
-                    int codigoProduto = scannerInt.nextInt();
                     System.out.println("Preço do produto");
                     double preco = scannerInt.nextDouble();
-                    Produto produto = new Produto(nomeProduto, codigoProduto, preco);
+                    Produto produto = new Produto(nomeProduto, codigo, preco);
                     produtos.add(produto);
                     }
                     break;
-                    /* 
-                case 3:
-                    System.out.println("Lista de clientes cadastrados:");
-                    for (Cliente cliente : clientes) {
-                        System.out.println("Nome: "+cliente.getNome()+" CPF: "+cliente.getCpf());
-                    }                    
-                    break;
-                case 4:
-                    System.out.println("Lista de produtos cadastrados:");
-                    for (Produto produt : produtos) {
-                        System.out.println("Id: "+produt.getCodigo()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco());
+
+                case 2:
+                    System.out.println("Lista de produtos:");
+                    for (Produto produto : produtos) {
+                        System.out.println("Codigo: "+produto.getCodigo()+" Nome: "+produto.getNomeProduto()+" Preço: "+ produto.getPreco());
                     }
                     break;
+                    /* 
                 case 5:
                     Pedido itenPedido = new Pedido();
                     System.out.println("Digite seu cpf");
