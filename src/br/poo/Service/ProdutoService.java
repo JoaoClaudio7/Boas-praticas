@@ -15,9 +15,9 @@ public class ProdutoService {
             System.out.println("Nenhum produto cadastrado.");
             return;
         }
-        
+
         for (Produto p : produtos) {
-            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco() + " | Quantidade: " + p.getQuantidade());
+            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco());
         }
     }
 
@@ -67,5 +67,11 @@ public class ProdutoService {
             }
         }
         return false;
+    }
+
+    public void listarTodosProdutos() {
+        for (Produto produto : produtos) {
+            System.out.println("Produto: " + produto.getNomeProduto() + " | Quantidade: " + produto.getQuantidade());
+        }
     }
 }

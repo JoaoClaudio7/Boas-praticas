@@ -79,6 +79,8 @@ public class Main {
                     produtoService.aumentarQuantidade(quantidadeAdicional, produtoParaAumentar);
                     
                     break;
+                case 7:
+                    produtoService.listarTodosProdutos();
                     /* 
                 case 5:
                     Pedido itenPedido = new Pedido();
