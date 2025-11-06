@@ -1,12 +1,14 @@
 package src.br.poo.Service.Pagemento;
 
 import src.br.poo.Model.Pedido;
+import src.br.poo.Service.PedidoService;
 
 public class PagamentoPix extends Pagamento{
     @Override
-    public void processar(double valor, Pedido pedido) {
+    public void processar(double valor, Pedido pedido, PedidoService pedidoService) {
+
         if(valor == pedido.getValorTotal()+pedido.getFrete().getFreteTotal()){
-            pedido.removerPedido();
+            pedidoService.removerPedido(pedido);
             System.out.println("Pagamento feito com Cartão");
         }else{
             System.out.println("Valor invalido");
