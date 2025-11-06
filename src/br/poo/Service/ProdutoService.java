@@ -15,10 +15,9 @@ public class ProdutoService {
             System.out.println("Nenhum produto cadastrado.");
             return;
         }
-
-        System.out.println("Lista de Produtos:");
+        
         for (Produto p : produtos) {
-            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco());
+            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco() + " | Quantidade: " + p.getQuantidade());
         }
     }
 
@@ -50,5 +49,23 @@ public class ProdutoService {
         } else {
             System.out.println("Produto não encontrado.");
         }
+    }
+
+    public boolean aumentarQuantidade(int quantidade, Produto produto ) {
+        if(quantidade < 0){
+            return false;
+        }
+
+        produto.setQuantidade(quantidade);
+        return true;
+    }
+
+    public boolean verificarProdutoExistente(int codigo) {
+        for (Produto p : produtos) {
+            if (p.getCodigo() == codigo) {
+                return true;
+            }
+        }
+        return false;
     }
 }

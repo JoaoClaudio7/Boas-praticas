@@ -1,16 +1,13 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import src.br.poo.Model.Cliente;
-import src.br.poo.Model.Pedido;
 import src.br.poo.Model.Produto;
+
 /*import src.br.poo.Service.ClienteService;
 import src.br.poo.Service.Frete;
 import src.br.poo.Service.Pagamento.PagamentoCartao;
 import src.br.poo.Service.Pagamento.PagamentoPix;
 import src.br.poo.Service.PedidoService;
 import src.br.poo.Service.ProdutoService;*/
+import src.br.poo.Service.ProdutoService;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,13 +15,13 @@ public class Main {
         Scanner scannerdoString = new Scanner(System.in);    
         Scanner scannerInt = new Scanner(System.in);  
 
-        List<Produto> produtos = new ArrayList<>();
-        List<Cliente> clientes = new ArrayList<>();
-        List<Pedido> pedidos = new ArrayList<>();
+        ProdutoService produtoService = new ProdutoService();
+        
 
-        System.out.println("Bem vindo ao JC-commerce\n"+"Escolha as seguntes opções\n");
+        System.out.println("Bem vindo ao e-commerce\n"+"Escolha as seguntes opções\n");
         int opcao = -1;
         while(opcao != 0){
+
             System.out.println("1 - Cadastrar produto");
             System.out.println("2 - Listagem produtos");
             System.out.println("3 - Entrada de estoque");
@@ -34,37 +31,53 @@ public class Main {
             System.out.println("7 - Relatorio de estoque");
             System.out.println("0 - Sair");
             opcao = in.nextInt(); 
+
             switch (opcao) {
                 case 1:
                 //VERIFICAR SE ID JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
                     System.out.println("Codigo do  produto");
                     int codigo = scannerInt.nextInt();
-                    boolean codigoExistente = false;
-                    for (Produto p : produtos) {
-                        if (p.getCodigo() == codigo) {
-                            codigoExistente = true;
-                            break;
-                        }
-                    }
+
+                    boolean codigoExistente = produtoService.verificarProdutoExistente(codigo);
+                    
                     if (codigoExistente) {
                         System.out.println("Produto já cadastrado. Tente novamente.");
                         break;
                     }
-                    else {
+
                     System.out.println("Digite o nome do produto");
                     String nomeProduto = scannerdoString.nextLine();
+
                     System.out.println("Preço do produto");
                     double preco = scannerInt.nextDouble();
-                    Produto produto = new Produto(nomeProduto, codigo, preco);
-                    produtos.add(produto);
-                    }
-                    break;
 
+                    System.out.println("Digite a quantidade");
+                    int quantidade = scannerInt.nextInt();
+
+                    Produto produto = new Produto(nomeProduto, codigo, preco, quantidade);
+                    produtoService.adicionarProduto(produto);
+                    
+                    break;
                 case 2:
                     System.out.println("Lista de produtos:");
-                    for (Produto produto : produtos) {
-                        System.out.println("Codigo: "+produto.getCodigo()+" Nome: "+produto.getNomeProduto()+" Preço: "+ produto.getPreco());
+                    produtoService.listarProdutos();
+                    break;
+                case 3:
+                    System.out.println("Digite o codigo do produto");
+                    int codigoProduto = scannerInt.nextInt();   
+                    
+                    Produto produtoParaAumentar = produtoService.buscarProdutoPorCodigo(codigoProduto);
+
+                    if(produtoParaAumentar == null){
+                        System.out.println("Produto não encontrado");
+                        break;
                     }
+
+                    System.out.println("Digite a quantidade para ser adicionada");
+                    int quantidadeAdicional = scannerInt.nextInt();
+
+                    produtoService.aumentarQuantidade(quantidadeAdicional, produtoParaAumentar);
+                    
                     break;
                     /* 
                 case 5:
