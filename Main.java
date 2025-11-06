@@ -1,8 +1,16 @@
-import java.util.*;
-import src.br.poo.Service.*;
-import src.br.poo.Service.Pagemento.*;
-import src.br.poo.Model.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
+import src.br.poo.Model.Cliente;
+import src.br.poo.Model.Pedido;
+import src.br.poo.Model.Produto;
+/*import src.br.poo.Service.ClienteService;
+import src.br.poo.Service.Frete;
+import src.br.poo.Service.Pagamento.PagamentoCartao;
+import src.br.poo.Service.Pagamento.PagamentoPix;
+import src.br.poo.Service.PedidoService;
+import src.br.poo.Service.ProdutoService;*/
 
 public class Main {
     public static void main(String[] args) {
@@ -12,72 +20,48 @@ public class Main {
 
         List<Produto> produtos = new ArrayList<>();
         List<Cliente> clientes = new ArrayList<>();
-        
-        PedidoService pedidoService = new PedidoService();
+        List<Pedido> pedidos = new ArrayList<>();
 
         System.out.println("Bem vindo ao JC-commerce\n"+"Escolha as seguntes opções\n");
         int opcao = -1;
         while(opcao != 0){
-            System.out.println("1 - Cadastrar cliente");
-            System.out.println("2 - Cadastrar produto");
-            System.out.println("3 - Listar clientes");
-            System.out.println("4 - Listar produtos");
-            System.out.println("5 - Adicionar itens no carrinho");
-            System.out.println("6 - aq na sequencia do item 5: fechar conta - exibir o valor total, ou cancelar");
-            System.out.println("7 - Listar pedidos do carrinho");
-            System.out.println("8 - Fazer pagamento");
+            System.out.println("1 - Cadastrar produto");
+            System.out.println("2 - Listagem produtos");
+            System.out.println("3 - Entrada de estoque");
+            System.out.println("4 - Registrar venda");
+            System.out.println("5 - Listagem de vendas");
+            System.out.println("6 - Relatorio consolidado de vendas");
+            System.out.println("7 - Relatorio de estoque");
             System.out.println("0 - Sair");
-            opcao = in.nextInt();
+            opcao = in.nextInt(); 
             switch (opcao) {
                 case 1:
-                    //VERIFICAR SE CPF JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
-                    System.out.println("Nome do cliente");
-                    String nomeCliente = scannerdoString.nextLine();
-                    System.out.println("Digite o CPF do cliente");
-                    int cpf = scannerInt.nextInt();                 
-                    boolean cpfExistente = false;
-                    for (Cliente c : clientes) {
-                        if (c.getCpf() == cpf) {
-                            cpfExistente = true;
-                            break;
-                        }
-                    }
-                    if (cpfExistente) {
-                        System.out.println("CPF já cadastrado. Tente novamente.");
-                        break;
-                    }
-                    Cliente cliente1 = new Cliente(nomeCliente, cpf);
-                    clientes.add(cliente1);
-                    System.out.println("Cliente cadastrado!");
-                    break;
-                case 2:
                 //VERIFICAR SE ID JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
-                    System.out.println("Id do  produto");
-                    int id = scannerInt.nextInt();
-                    boolean idExistente = false;
-
+                    System.out.println("Codigo do  produto");
+                    int codigo = scannerInt.nextInt();
+                    boolean codigoExistente = false;
                     for (Produto p : produtos) {
-                        if (p.getId() == id) {
-                            idExistente = true;
+                        if (p.getCodigo() == codigo) {
+                            codigoExistente = true;
                             break;
                         }
                     }
-
-                    if (idExistente) {
-                        System.out.println("ID já cadastrado. Tente novamente.");
+                    if (codigoExistente) {
+                        System.out.println("Produto já cadastrado. Tente novamente.");
                         break;
                     }
-
+                    else {
                     System.out.println("Digite o nome do produto");
                     String nomeProduto = scannerdoString.nextLine();
-
+                    System.out.println("Digite o codigo do produto");
+                    int codigoProduto = scannerInt.nextInt();
                     System.out.println("Preço do produto");
                     double preco = scannerInt.nextDouble();
-
-                    Produto produto = new Produto(id, nomeProduto, preco);
+                    Produto produto = new Produto(nomeProduto, codigoProduto, preco);
                     produtos.add(produto);
-
+                    }
                     break;
+                    /* 
                 case 3:
                     System.out.println("Lista de clientes cadastrados:");
                     for (Cliente cliente : clientes) {
@@ -87,30 +71,21 @@ public class Main {
                 case 4:
                     System.out.println("Lista de produtos cadastrados:");
                     for (Produto produt : produtos) {
-                        System.out.println("Id: "+produt.getId()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco());
+                        System.out.println("Id: "+produt.getCodigo()+" Produto: "+produt.getNomeProduto()+" Preço: "+ produt.getPreco());
                     }
                     break;
                 case 5:
-                    Pedido pedidoNovo = new Pedido();
-                    
+                    Pedido itenPedido = new Pedido();
                     System.out.println("Digite seu cpf");
                     int cpfBuscar = scannerInt.nextInt();
-
-                    Cliente clienteBuscado = pedidoNovo.buscarCliente(clientes, cpfBuscar);
-                    Pedido pedidoDoCliente = pedidoService.buscarPedido(cpfBuscar);
-
-                    if(clienteBuscado != null ){
-                        if(pedidoDoCliente == null){
-                            pedidoService.adicionarNovoPedido(pedidoNovo, clienteBuscado);
-                            System.out.println("Pedido adicionado");
-                        }else{
-                            System.out.println("Digite o id do produto");
-                            int idProduto = scannerInt.nextInt();
-                        }
-                    }else{
-                        System.out.println("Pedido não encontrado, vefifique o CPF.");
+                    Cliente clienteBuscado = itenPedido.buscarCliente(clientes, cpfBuscar);
+                    if(clienteBuscado != null){
+                        itenPedido.setCliente(clienteBuscado);
+                        pedidos.add(itenPedido);
                     }
-                    
+                    else {
+                        System.out.println("Cliente nao encontrado!");
+                    }
                     break;
                 case 6:
                     Pedido itenCarrinho = new Pedido();
@@ -122,35 +97,35 @@ public class Main {
                     System.out.println("Digite o id do produto");
                     int produtoId = scannerInt.nextInt();
                     Produto buscarProduto = itenCarrinho.buscarProduto(produtos, produtoId);
-
                     if(buscarCliente == null || buscarProduto == null){
                         System.out.println("CPF ou Id invalido");
                     }else{
                         Produto produtoCarrinho = new Produto(produtoId, buscarProduto.getNomeProduto(), buscarProduto.getPreco());
-                        pedidoService.buscarPedido(buscarCpf);
+                        for (Pedido pedido : pedidos) {
+                            int cpfParaBuscar = pedido.getCliente().getCpf(); 
+                            if (cpfParaBuscar == buscarCpf) {
+                                pedido.adicionarProduto(produtoCarrinho);
+                            }
+                        }
                         
-                        //pedidoService.adicionarProduto(produtoCarrinho);
                     }
                     break;
                 case 7:
+                    Pedido listar = new Pedido();
                     System.out.println("Digite o numero do cpf");
                     int cpfCarrinho = scannerInt.nextInt();
-
-                    Pedido pedidoParaListar = pedidoService.buscarPedido(cpfCarrinho);
-
-                    if(pedidoParaListar == null){
+                    Pedido listarPedido = listar.buscarPedido(pedidos, cpfCarrinho);
+                    if(listarPedido == null){
                         System.out.println("Não existe pedido neste cpf");
                     }else{
                         System.out.println("Lista do cpf" + cpfCarrinho);
-                        pedidoService.ListarPedido(pedidoParaListar);
+                        listarPedido.listarProdutos();
                     }
-
-                    pedidoService.calcularTotal(pedidoParaListar.getProdutos());
-
-                    if (pedidoParaListar.getFrete() != null) {
-                        System.out.println("Total R$ "+(pedidoParaListar.getValorTotal()+pedidoParaListar.getFrete().getFreteTotal()));    
+                    listarPedido.calcularTotal();
+                    if (listarPedido.getFrete() != null) {
+                        System.out.println("Total R$ "+(listarPedido.getValorTotal()+listarPedido.getFrete().getFreteTotal()));    
                     }else{
-                        System.out.println("Total R$ "+pedidoParaListar.getValorTotal());     
+                        System.out.println("Total R$ "+listarPedido.getValorTotal());     
                     }
                     
                     break;
@@ -161,11 +136,11 @@ public class Main {
                     System.out.println("Digite seu cpf");
                     int cpfFrete = scannerInt.nextInt();
 
-                    //Pedido pedidoAdicionarFrete = f.buscarPedido(cpfFrete);
+                    Pedido pedidoAdicionarFrete = f.buscarPedido(pedidos, cpfFrete);
 
                     System.out.println("Se entrega for local digite (s) se não digite (n)");
                     String verificarFrete = scannerdoString.nextLine();
-                    /* 
+                    
                     if(verificarFrete.equalsIgnoreCase("n")){
                         System.out.println("Digite seu cep");
                         String cep = scannerdoString.nextLine();
@@ -183,13 +158,13 @@ public class Main {
                     }else{
                         System.out.println("Escolha uma opção valida");
                     }
-                    */
+                    
                     break;
                 case 9:
                     Pedido pagarCliente = new Pedido();
                     System.out.println("Digite o cpf");
                     int cpfPagar = scannerInt.nextInt();
-                    /* 
+                    
                     Pedido pedidoPagar = pagarCliente.buscarPedido(pedidos, cpfPagar);
                     
                     if(pedidoPagar.getFrete() == null){
@@ -202,20 +177,20 @@ public class Main {
                             System.out.println("Digite o valor");
                             double valor = scannerInt.nextDouble();
                             PagamentoCartao pagamentoCartao = new PagamentoCartao();
-                            pagamentoCartao.processar(valor, pedidoPagar, pedidoService);
+                            pagamentoCartao.processar(valor, pedidoPagar);
                         }else if(pagar.equalsIgnoreCase("p")){
                             System.out.println("Digire o valor");
                             double valor = scannerInt.nextDouble();
                             PagamentoPix pagementoPix = new PagamentoPix();
-                            pagementoPix.processar(valor, pedidoPagar, pedidoService);
+                            pagementoPix.processar(valor, pedidoPagar);
                         }else{
                             System.out.println("Digite uma opção valida");
                         }
                     }else{
                         System.out.println("Pedido não encontrado");
-                    }*/
+                    }
                 default:
-                    break;
+                    break;*/
             }
         }
     in.close();

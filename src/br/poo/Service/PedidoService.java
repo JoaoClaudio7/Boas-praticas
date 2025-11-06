@@ -41,7 +41,7 @@ public class PedidoService {
     public void ListarPedido(Pedido listarPedido) {
         List<Produto> produtos = listarPedido.getProdutos();
         for (Produto pedido : produtos) {
-            System.out.println("Id do produto: " + pedido.getId() + "Nome do produto: "+pedido.getNomeProduto() + " Preço: " + pedido.getPreco());
+            System.out.println("Id do produto: " + pedido.getCodigo() + "Nome do produto: "+pedido.getNomeProduto() + " Preço: " + pedido.getPreco());
         }
     }
 

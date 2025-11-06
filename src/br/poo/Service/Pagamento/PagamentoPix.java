@@ -1,4 +1,4 @@
-package src.br.poo.Service.Pagemento;
+package src.br.poo.Service.Pagamento;
 
 import src.br.poo.Model.Pedido;
 import src.br.poo.Service.PedidoService;

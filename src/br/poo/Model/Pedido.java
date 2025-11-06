@@ -27,7 +27,7 @@ public class Pedido{
    
     public Produto buscarProduto(List<Produto> produtos, int idProduto){
         for (Produto produto2 : produtos) {
-            if(produto2.getId() == idProduto){
+            if(produto2.getCodigo() == idProduto){
                 return produto2;
             }
         }
@@ -52,7 +52,7 @@ public class Pedido{
 
     public void listarProdutos(){
         for (Produto produto : produtos) {
-            System.out.println("Id: "+produto.getId()+" Nome: "+produto.getNomeProduto()+" Preço: "+produto.getPreco());
+            System.out.println("Id: "+produto.getCodigo()+" Nome: "+produto.getNomeProduto()+" Preço: "+produto.getPreco());
         }
     }
 
