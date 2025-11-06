@@ -1,4 +1,7 @@
-package src.br.poo;
+package src.br.poo.Service.Pagemento;
+
+import src.br.poo.Model.Pedido;
+
 public class PagamentoPix extends Pagamento{
     @Override
     public void processar(double valor, Pedido pedido) {

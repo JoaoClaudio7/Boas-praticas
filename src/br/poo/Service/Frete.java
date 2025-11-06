@@ -1,4 +1,4 @@
-package src.br.poo;
+package src.br.poo.Service;
 public class Frete {
     private double freteTotal;
   

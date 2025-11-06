@@ -1,4 +1,4 @@
-package src.br.poo;
+package src.br.poo.Model;
 public class Produto {
     private int id;
     private String nomeProduto;

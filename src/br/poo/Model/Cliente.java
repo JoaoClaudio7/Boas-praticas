@@ -1,4 +1,4 @@
-package src.br.poo;
+package src.br.poo.Model;
 public class Cliente {
     private String nomeCliente;
     private int cpf;

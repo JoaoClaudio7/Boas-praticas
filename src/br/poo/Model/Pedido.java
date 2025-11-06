@@ -1,6 +1,8 @@
-package src.br.poo;
+package src.br.poo.Model;
 import java.util.ArrayList;
 import java.util.List;
+
+import src.br.poo.Service.Frete;
 
 public class Pedido{
     private Cliente cliente;

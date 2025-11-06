@@ -1,13 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import src.br.poo.Service.*;
+import src.br.poo.Service.Pagemento.*;
+import src.br.poo.Model.*;
 
-import src.br.poo.Cliente;
-import src.br.poo.Frete;
-import src.br.poo.PagamentoCartao;
-import src.br.poo.PagamentoPix;
-import src.br.poo.Pedido;
-import src.br.poo.Produto;
 
 public class Main {
     public static void main(String[] args) {
