@@ -117,40 +117,23 @@ public class Main {
 
                 case 4: {
                     Pedido pedido = new Pedido();
-                    System.out.print("Associar pedido a um cliente? (s/n): ");
-                    String resp = scanner.nextLine().trim();
-                    if (resp.equalsIgnoreCase("s")) {
-                        System.out.println("Associando cliente não implementado aqui.");
-                    }
-
                     boolean continuarVenda = true;
+
                     while (continuarVenda) {
-                        System.out.print("Código do produto (0 para finalizar): ");
-                        int codigoProdutoVenda;
-                        try {
-                            codigoProdutoVenda = Integer.parseInt(scanner.nextLine().trim());
-                        } catch (NumberFormatException ex) {
-                            System.out.println("Código inválido.");
-                            continue;
-                        }
+                        System.out.println("Digite o código do produto (0 para finalizar):");
+                        int codigoProdutoVenda = Integer.parseInt(scanner.nextLine().trim());
                         if (codigoProdutoVenda == 0) break;
 
-                        System.out.print("Quantidade: ");
-                        int quantidadeVenda;
-                        try {
-                            quantidadeVenda = Integer.parseInt(scanner.nextLine().trim());
-                        } catch (NumberFormatException ex) {
-                            System.out.println("Quantidade inválida.");
-                            continue;
-                        }
+                        System.out.println("Digite a quantidade:");
+                        int quantidadeVenda = Integer.parseInt(scanner.nextLine().trim());
 
                         boolean registrado = produtoService.registrarVenda(pedido, codigoProdutoVenda, quantidadeVenda);
                         if (!registrado) {
-                            System.out.print("Não foi possível registrar o item. Deseja tentar outro produto? (s/n): ");
+                            System.out.println("Não foi possível registrar o item. Deseja tentar outro produto? (s/n)");
                             String tenta = scanner.nextLine().trim();
                             if (!tenta.equalsIgnoreCase("s")) break;
                         } else {
-                            System.out.print("Produto adicionado. Deseja adicionar mais produtos? (s/n): ");
+                            System.out.println("Produto adicionado à venda. Deseja adicionar mais produtos? (s/n)");
                             String mais = scanner.nextLine().trim();
                             if (!mais.equalsIgnoreCase("s")) continuarVenda = false;
                         }
@@ -158,11 +141,11 @@ public class Main {
 
                     System.out.println("\n=== VENDA FINALIZADA ===");
                     System.out.println("Valor total da venda: R$ " + pedido.getValorTotal());
-                    pedidos.add(pedido);
+                    pedidoService.adicionarNovoPedido(pedido, null);
                     break;
                 }
-
                 case 5:
+                    System.out.println("\n=== LISTAGEM DE VENDAS ===");
                     pedidoService.listarTodasVendas();
                     break;
 

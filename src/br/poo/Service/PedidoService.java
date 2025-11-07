@@ -9,9 +9,7 @@ public class PedidoService {
         if (clienteBuscado != null) {
             pedido.setCliente(clienteBuscado);
             pedidos.add(pedido);
-        } else {
-            System.out.println("Cliente não encontrado!");
-        }
+        } 
     }
 
     public Pedido buscarPedido(int cpf) {
