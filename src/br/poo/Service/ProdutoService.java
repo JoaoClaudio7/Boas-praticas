@@ -1,5 +1,7 @@
 package src.br.poo.Service;
 import java.util.*;
+
+import src.br.poo.Model.Pedido;
 import src.br.poo.Model.Produto;
 
 public class ProdutoService {
@@ -7,7 +9,7 @@ public class ProdutoService {
 
     public void adicionarProduto(Produto produto) {
         produtos.add(produto);
-        System.out.println("Produto adicionado com sucesso!");
+        System.out.println("Produto cadastrado com sucesso!");
     }
 
     public void listarProdutos() {
@@ -17,7 +19,7 @@ public class ProdutoService {
         }
 
         for (Produto p : produtos) {
-            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco());
+            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco()+ " | Estoque: " + p.getQuantidade());
         }
     }
 
@@ -55,8 +57,7 @@ public class ProdutoService {
         if(quantidade < 0){
             return false;
         }
-
-        produto.setQuantidade(quantidade);
+        produto.adicionarQuantidade(quantidade);
         return true;
     }
 
@@ -74,4 +75,32 @@ public class ProdutoService {
             System.out.println("Produto: " + produto.getNomeProduto() + " | Quantidade: " + produto.getQuantidade());
         }
     }
+
+    public boolean registrarVenda(Pedido pedido, int codigoProduto, int quantidade) {
+        Produto produto = buscarProdutoPorCodigo(codigoProduto);
+
+        if (produto == null) {
+            System.out.println("Produto não encontrado!");
+            return false;
+        }
+
+        if (quantidade > produto.getQuantidade()) {
+            System.out.println("Estoque insuficiente! Estoque atual: " + produto.getQuantidade());
+            return false;
+        }
+
+        boolean subtraiu = produto.reduzirQuantidade(quantidade);
+        if (!subtraiu) {
+            System.out.println("Erro ao debitar do estoque.");
+            return false;
+        }
+
+        pedido.adicionarItem(produto, quantidade);
+
+        System.out.println("Venda registrada: " + quantidade + "x " + produto.getNomeProduto());
+        System.out.println("Estoque restante: " + produto.getQuantidade());
+        System.out.println("Valor total até agora: R$ " + pedido.getValorTotal());
+        return true;
+    }
+
 }

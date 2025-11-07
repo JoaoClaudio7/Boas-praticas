@@ -11,8 +11,6 @@ public class Frete {
         return peso*0.25;
     }
 
-    
-
     public double getFreteTotal() {
         return freteTotal;
     }

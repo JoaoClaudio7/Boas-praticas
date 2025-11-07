@@ -2,47 +2,67 @@ package src.br.poo.Service;
 import java.util.*;
 import src.br.poo.Model.*;
 
-
 public class PedidoService {
-    List<Pedido> pedidos = new ArrayList<>();
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public void adicionarNovoPedido(Pedido pedido, Cliente clienteBuscado) {
-        if(clienteBuscado != null){
+        if (clienteBuscado != null) {
             pedido.setCliente(clienteBuscado);
             pedidos.add(pedido);
-        }else {
-            System.out.println("Cliente nao encontrado!");
+        } else {
+            System.out.println("Cliente não encontrado!");
         }
     }
 
-    public Pedido buscarPedido(int cpf){
-        for (Pedido pedido2 : pedidos) {
-            if(pedido2.getCliente().getCpf() == cpf){
-               return pedido2;
+    public Pedido buscarPedido(int cpf) {
+        for (Pedido pedido : pedidos) {
+            if (pedido.getCliente() != null && pedido.getCliente().getCpf() == cpf) {
+                return pedido;
             }
         }
         return null;
     }
 
-    public double calcularTotal(List<Produto> listaProdutos) {
-        double valorTotalPedido = 0;
-        for (Produto produto : listaProdutos) {
-            valorTotalPedido += produto.getPreco();
+    public double calcularTotal(Pedido pedido) {
+        double total = 0;
+        for (ItemPedido item : pedido.getItens()) {
+            total += item.getSubtotal();
         }
-        return valorTotalPedido;
+        return total;
     }
 
     public void removerPedido(Pedido pedido) {
-        pedido.setValorTotal(0);
-        pedido.setFrete(null);
-        pedido.setProdutos();
+    pedido.setValorTotal(0);
+    pedido.setFrete(null);
+    pedido.setItens(new ArrayList<>());
+}
+
+
+    public void listarPedido(Pedido pedido) {
+        System.out.println("\n=== ITENS DO PEDIDO ===");
+        for (ItemPedido item : pedido.getItens()) {
+            Produto p = item.getProduto();
+            System.out.println(
+                "Código: " + p.getCodigo() +
+                " | Nome: " + p.getNomeProduto() +
+                " | Quantidade: " + item.getQuantidade() +
+                " | Subtotal: R$ " + item.getSubtotal()
+            );
+        }
+        System.out.println("Valor total do pedido: R$ " + pedido.getValorTotal());
     }
 
-    public void ListarPedido(Pedido listarPedido) {
-        List<Produto> produtos = listarPedido.getProdutos();
-        for (Produto pedido : produtos) {
-            System.out.println("Id do produto: " + pedido.getCodigo() + "Nome do produto: "+pedido.getNomeProduto() + " Preço: " + pedido.getPreco());
+    public void listarTodasVendas() {
+        if (pedidos.isEmpty()) {
+            System.out.println("Nenhuma venda registrada.");
+            return;
+        }
+
+        System.out.println("\n=== LISTAGEM DE VENDAS ===");
+        for (Pedido pedido : pedidos) {
+            Cliente c = pedido.getCliente();
+            System.out.println("\nCliente: " + (c != null ? c.getNome() : "Não informado"));
+            listarPedido(pedido);
         }
     }
-
 }

@@ -1,70 +1,48 @@
 package src.br.poo.Model;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import src.br.poo.Service.Frete;
 
-public class Pedido{
+public class Pedido {
     private Cliente cliente;
-    private List<Produto> produtos;
+    private List<ItemPedido> itens;
     private Frete frete;
     private double valorTotal;
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
-        this.produtos = new ArrayList<>();
+        this.itens = new ArrayList<>();
         this.frete = null;
     }
 
-    public Pedido(){
-        this.produtos = new ArrayList<>();
+    public Pedido() {
+        this.itens = new ArrayList<>();
         this.frete = null;
     }
-    
+
+    public void adicionarItem(Produto produto, int quantidade) {
+        ItemPedido item = new ItemPedido(produto, quantidade);
+        itens.add(item);
+        valorTotal += item.getSubtotal();
+    }
+
     public void adicionarFrete(Frete frete) {
         this.frete = frete;
     }
-   
-    public Produto buscarProduto(List<Produto> produtos, int idProduto){
-        for (Produto produto2 : produtos) {
-            if(produto2.getCodigo() == idProduto){
-                return produto2;
-            }
-        }
-        return null;
-    }   
 
-    public Cliente buscarCliente(List<Cliente> itenCarrinho, int cpf){
-        Cliente clienteEncontrado = null;
-        for (Cliente client : itenCarrinho) {
-            if(client.getCpf() == cpf){
-                clienteEncontrado = client;
-                return clienteEncontrado;
-            }
-        }
-
-        return clienteEncontrado;
-    }
-
-    public void adicionarProduto(Produto produto){
-        produtos.add(produto);
-    }
-
-    public void listarProdutos(){
-        for (Produto produto : produtos) {
-            System.out.println("Id: "+produto.getCodigo()+" Nome: "+produto.getNomeProduto()+" Preço: "+produto.getPreco());
+    public void listarProdutos() {
+        for (ItemPedido item : itens) {
+            Produto p = item.getProduto();
+            System.out.println(
+                "Codigo: " + p.getCodigo() +
+                " | Nome: " + p.getNomeProduto() +
+                " | Preço: R$ " + p.getPreco() +
+                " | Quantidade: " + item.getQuantidade() +
+                " | Subtotal: R$ " + item.getSubtotal()
+            );
         }
     }
-
-    /*public double pesoTotal() {
-        double pesoTotal = 0;
-        for (Produto produto : produtos) {
-            pesoTotal = produto.getPeso();
-        }
-        return pesoTotal;
-    }
-*/
-    
 
     public Cliente getCliente() {
         return cliente;
@@ -74,25 +52,27 @@ public class Pedido{
         this.cliente = cliente;
     }
 
-    public void setFrete(Frete frete) {
-        this.frete = frete;
-    }
-    
-    public void setProdutos(){
-        produtos.clear();
-    }
     public Frete getFrete() {
         return frete;
     }
+
+    public void setFrete(Frete frete) {
+        this.frete = frete;
+    }
+
     public double getValorTotal() {
-        
         return valorTotal;
     }
+
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
 
-    public List<Produto> getProdutos() {
-        return new ArrayList<>(produtos);
+    public List<ItemPedido> getItens() {
+        return new ArrayList<>(itens);
     }
+
+    public void setItens(List<ItemPedido> itens) {
+    this.itens = itens;
+}
 }

@@ -35,7 +35,17 @@ public class Produto {
         return quantidade;
     }
     public void setQuantidade(int quantidade) {
-        this.quantidade += quantidade;
+        this.quantidade = quantidade;
+    }
+    public void adicionarQuantidade(int quantidadeAdicional) {
+        if (quantidadeAdicional <= 0) return;
+        this.quantidade += quantidadeAdicional;
+    }
+    public boolean reduzirQuantidade(int quantidadeRemover) {
+        if (quantidadeRemover <= 0) return false;
+        if (quantidadeRemover > this.quantidade) return false;
+        this.quantidade -= quantidadeRemover;
+        return true;
     }
     
 }

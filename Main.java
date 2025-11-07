@@ -1,28 +1,24 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import src.br.poo.Model.Produto;
 
-/*import src.br.poo.Service.ClienteService;
-import src.br.poo.Service.Frete;
-import src.br.poo.Service.Pagamento.PagamentoCartao;
-import src.br.poo.Service.Pagamento.PagamentoPix;
+import src.br.poo.Model.Pedido;
+import src.br.poo.Model.Produto;
 import src.br.poo.Service.PedidoService;
-import src.br.poo.Service.ProdutoService;*/
 import src.br.poo.Service.ProdutoService;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        Scanner scannerdoString = new Scanner(System.in);    
-        Scanner scannerInt = new Scanner(System.in);  
+        Scanner scanner = new Scanner(System.in);
 
         ProdutoService produtoService = new ProdutoService();
-        
+        PedidoService pedidoService = new PedidoService();
+        List<Pedido> pedidos = new ArrayList<>();
 
-        System.out.println("Bem vindo ao e-commerce\n"+"Escolha as seguntes opções\n");
+        System.out.println("Bem vindo ao e-commerce\nEscolha as seguintes opções\n");
         int opcao = -1;
-        while(opcao != 0){
-
-            System.out.println("1 - Cadastrar produto");
+        while (opcao != 0) {
+            System.out.println("\n1 - Cadastrar produto");
             System.out.println("2 - Listagem produtos");
             System.out.println("3 - Entrada de estoque");
             System.out.println("4 - Registrar venda");
@@ -30,179 +26,164 @@ public class Main {
             System.out.println("6 - Relatorio consolidado de vendas");
             System.out.println("7 - Relatorio de estoque");
             System.out.println("0 - Sair");
-            opcao = in.nextInt(); 
+            System.out.print("Escolha uma opção: ");
+
+            String linha = scanner.nextLine().trim();
+            if (linha.isEmpty()) continue;
+            try {
+                opcao = Integer.parseInt(linha);
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida.");
+                continue;
+            }
 
             switch (opcao) {
-                case 1:
-                //VERIFICAR SE ID JA CADASTRADO-BOA PRATICA CRIAR A FUNÇÃO PARA ISSO
-                    System.out.println("Codigo do  produto");
-                    int codigo = scannerInt.nextInt();
+                case 1: {
+                    System.out.print("Código do produto: ");
+                    int codigo;
+                    try {
+                        codigo = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Código inválido.");
+                        break;
+                    }
 
-                    boolean codigoExistente = produtoService.verificarProdutoExistente(codigo);
-                    
-                    if (codigoExistente) {
+                    if (produtoService.verificarProdutoExistente(codigo)) {
                         System.out.println("Produto já cadastrado. Tente novamente.");
                         break;
                     }
 
-                    System.out.println("Digite o nome do produto");
-                    String nomeProduto = scannerdoString.nextLine();
+                    System.out.print("Nome do produto: ");
+                    String nomeProduto = scanner.nextLine().trim();
 
-                    System.out.println("Preço do produto");
-                    double preco = scannerInt.nextDouble();
+                    System.out.print("Preço do produto: ");
+                    double preco;
+                    try {
+                        preco = Double.parseDouble(scanner.nextLine().trim());
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Preço inválido.");
+                        break;
+                    }
 
-                    System.out.println("Digite a quantidade");
-                    int quantidade = scannerInt.nextInt();
+                    System.out.print("Quantidade inicial: ");
+                    int quantidade;
+                    try {
+                        quantidade = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Quantidade inválida.");
+                        break;
+                    }
 
                     Produto produto = new Produto(nomeProduto, codigo, preco, quantidade);
                     produtoService.adicionarProduto(produto);
-                    
                     break;
+                }
+
                 case 2:
                     System.out.println("Lista de produtos:");
                     produtoService.listarProdutos();
                     break;
-                case 3:
-                    System.out.println("Digite o codigo do produto");
-                    int codigoProduto = scannerInt.nextInt();   
-                    
-                    Produto produtoParaAumentar = produtoService.buscarProdutoPorCodigo(codigoProduto);
 
-                    if(produtoParaAumentar == null){
+                case 3: {
+                    System.out.print("Digite o código do produto: ");
+                    int codigoProduto;
+                    try {
+                        codigoProduto = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Código inválido.");
+                        break;
+                    }
+
+                    Produto produtoParaAumentar = produtoService.buscarProdutoPorCodigo(codigoProduto);
+                    if (produtoParaAumentar == null) {
                         System.out.println("Produto não encontrado");
                         break;
                     }
 
-                    System.out.println("Digite a quantidade para ser adicionada");
-                    int quantidadeAdicional = scannerInt.nextInt();
+                    System.out.print("Quantidade a adicionar: ");
+                    int quantidadeAdicional;
+                    try {
+                        quantidadeAdicional = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Quantidade inválida.");
+                        break;
+                    }
 
-                    produtoService.aumentarQuantidade(quantidadeAdicional, produtoParaAumentar);
-                    
+                    boolean ok = produtoService.aumentarQuantidade(quantidadeAdicional, produtoParaAumentar);
+                    if (ok) System.out.println("Estoque atualizado.");
+                    else System.out.println("Falha ao atualizar estoque.");
                     break;
+                }
+
+                case 4: {
+                    Pedido pedido = new Pedido();
+                    System.out.print("Associar pedido a um cliente? (s/n): ");
+                    String resp = scanner.nextLine().trim();
+                    if (resp.equalsIgnoreCase("s")) {
+                        System.out.println("Associando cliente não implementado aqui.");
+                    }
+
+                    boolean continuarVenda = true;
+                    while (continuarVenda) {
+                        System.out.print("Código do produto (0 para finalizar): ");
+                        int codigoProdutoVenda;
+                        try {
+                            codigoProdutoVenda = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Código inválido.");
+                            continue;
+                        }
+                        if (codigoProdutoVenda == 0) break;
+
+                        System.out.print("Quantidade: ");
+                        int quantidadeVenda;
+                        try {
+                            quantidadeVenda = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Quantidade inválida.");
+                            continue;
+                        }
+
+                        boolean registrado = produtoService.registrarVenda(pedido, codigoProdutoVenda, quantidadeVenda);
+                        if (!registrado) {
+                            System.out.print("Não foi possível registrar o item. Deseja tentar outro produto? (s/n): ");
+                            String tenta = scanner.nextLine().trim();
+                            if (!tenta.equalsIgnoreCase("s")) break;
+                        } else {
+                            System.out.print("Produto adicionado. Deseja adicionar mais produtos? (s/n): ");
+                            String mais = scanner.nextLine().trim();
+                            if (!mais.equalsIgnoreCase("s")) continuarVenda = false;
+                        }
+                    }
+
+                    System.out.println("\n=== VENDA FINALIZADA ===");
+                    System.out.println("Valor total da venda: R$ " + pedido.getValorTotal());
+                    pedidos.add(pedido);
+                    break;
+                }
+
+                case 5:
+                    pedidoService.listarTodasVendas();
+                    break;
+
+                case 6:
+                    System.out.println("Relatório consolidado não implementado aqui.");
+                    break;
+
                 case 7:
                     produtoService.listarTodosProdutos();
-                    /* 
-                case 5:
-                    Pedido itenPedido = new Pedido();
-                    System.out.println("Digite seu cpf");
-                    int cpfBuscar = scannerInt.nextInt();
-                    Cliente clienteBuscado = itenPedido.buscarCliente(clientes, cpfBuscar);
-                    if(clienteBuscado != null){
-                        itenPedido.setCliente(clienteBuscado);
-                        pedidos.add(itenPedido);
-                    }
-                    else {
-                        System.out.println("Cliente nao encontrado!");
-                    }
                     break;
-                case 6:
-                    Pedido itenCarrinho = new Pedido();
 
-                    System.out.println("Digite seu cpf");
-                    int buscarCpf = scannerInt.nextInt();
-                    Cliente buscarCliente = itenCarrinho.buscarCliente(clientes, buscarCpf);
-                    
-                    System.out.println("Digite o id do produto");
-                    int produtoId = scannerInt.nextInt();
-                    Produto buscarProduto = itenCarrinho.buscarProduto(produtos, produtoId);
-                    if(buscarCliente == null || buscarProduto == null){
-                        System.out.println("CPF ou Id invalido");
-                    }else{
-                        Produto produtoCarrinho = new Produto(produtoId, buscarProduto.getNomeProduto(), buscarProduto.getPreco());
-                        for (Pedido pedido : pedidos) {
-                            int cpfParaBuscar = pedido.getCliente().getCpf(); 
-                            if (cpfParaBuscar == buscarCpf) {
-                                pedido.adicionarProduto(produtoCarrinho);
-                            }
-                        }
-                        
-                    }
+                case 0:
+                    System.out.println("Saindo...");
                     break;
-                case 7:
-                    Pedido listar = new Pedido();
-                    System.out.println("Digite o numero do cpf");
-                    int cpfCarrinho = scannerInt.nextInt();
-                    Pedido listarPedido = listar.buscarPedido(pedidos, cpfCarrinho);
-                    if(listarPedido == null){
-                        System.out.println("Não existe pedido neste cpf");
-                    }else{
-                        System.out.println("Lista do cpf" + cpfCarrinho);
-                        listarPedido.listarProdutos();
-                    }
-                    listarPedido.calcularTotal();
-                    if (listarPedido.getFrete() != null) {
-                        System.out.println("Total R$ "+(listarPedido.getValorTotal()+listarPedido.getFrete().getFreteTotal()));    
-                    }else{
-                        System.out.println("Total R$ "+listarPedido.getValorTotal());     
-                    }
-                    
-                    break;
-                case 8:
-                    Frete frete = new Frete();
-                    Pedido f = new Pedido();
 
-                    System.out.println("Digite seu cpf");
-                    int cpfFrete = scannerInt.nextInt();
-
-                    Pedido pedidoAdicionarFrete = f.buscarPedido(pedidos, cpfFrete);
-
-                    System.out.println("Se entrega for local digite (s) se não digite (n)");
-                    String verificarFrete = scannerdoString.nextLine();
-                    
-                    if(verificarFrete.equalsIgnoreCase("n")){
-                        System.out.println("Digite seu cep");
-                        String cep = scannerdoString.nextLine();
-
-                        double valorFrete = frete.calcularFrete(pedidoAdicionarFrete.pesoTotal(), cep);
-                        System.out.println(valorFrete);
-                        frete.setFreteTotal(valorFrete);
-                        pedidoAdicionarFrete.adicionarFrete(frete);
-                        pedidoAdicionarFrete.setValorTotal(frete.getFreteTotal()+pedidoAdicionarFrete.getValorTotal());
-                    }else if(verificarFrete.equalsIgnoreCase("s")){
-                        double valorFrete2 = frete.calcularFrete(pedidoAdicionarFrete.pesoTotal());
-                        frete.setFretePeso(valorFrete2);
-                        pedidoAdicionarFrete.adicionarFrete(frete);
-                        pedidoAdicionarFrete.setValorTotal(frete.getFreteTotal()+pedidoAdicionarFrete.getValorTotal());
-                    }else{
-                        System.out.println("Escolha uma opção valida");
-                    }
-                    
-                    break;
-                case 9:
-                    Pedido pagarCliente = new Pedido();
-                    System.out.println("Digite o cpf");
-                    int cpfPagar = scannerInt.nextInt();
-                    
-                    Pedido pedidoPagar = pagarCliente.buscarPedido(pedidos, cpfPagar);
-                    
-                    if(pedidoPagar.getFrete() == null){
-                        System.out.println("O frete não foi adicionado");
-                    }else if(pedidoPagar != null){
-                        
-                        System.out.println("Digite (c) para pagar com cartão e (p) para pix");
-                        String pagar = scannerdoString.nextLine();
-                        if (pagar.equals("c")) {
-                            System.out.println("Digite o valor");
-                            double valor = scannerInt.nextDouble();
-                            PagamentoCartao pagamentoCartao = new PagamentoCartao();
-                            pagamentoCartao.processar(valor, pedidoPagar);
-                        }else if(pagar.equalsIgnoreCase("p")){
-                            System.out.println("Digire o valor");
-                            double valor = scannerInt.nextDouble();
-                            PagamentoPix pagementoPix = new PagamentoPix();
-                            pagementoPix.processar(valor, pedidoPagar);
-                        }else{
-                            System.out.println("Digite uma opção valida");
-                        }
-                    }else{
-                        System.out.println("Pedido não encontrado");
-                    }
                 default:
-                    break;*/
+                    System.out.println("Opção inválida.");
+                    break;
             }
         }
-    in.close();
-    scannerInt.close();
-    scannerdoString.close();
+
+        scanner.close();
     }
 }
