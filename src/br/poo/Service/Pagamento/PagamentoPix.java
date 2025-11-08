@@ -9,7 +9,7 @@ public class PagamentoPix extends Pagamento{
 
         if(valor == pedido.getValorTotal()+pedido.getFrete().getFreteTotal()){
             pedidoService.removerPedido(pedido);
-            System.out.println("Pagamento feito com Cartão");
+            System.out.println("Pagamento feito com PIX");
         }else{
             System.out.println("Valor invalido");
         }
