@@ -1,34 +1,41 @@
 package src.br.poo.Utils;
+
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
 import java.util.List;
+import java.util.LinkedHashMap;
+import src.br.poo.Model.Produto;
 
 public class RelatorioUtils {
-    public static void gerarRelatorioTxt(List<?> lista, double valorTotalGeral, int totalItensVendidos) {
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("=== RELATÓRIO CONSOLIDADO DE VENDAS ===\n\n");
 
-        lista.forEach(obj -> {
-            try {
-                var field = obj.getClass().getDeclaredFields();
-                String nome = field[0].get(obj).toString();
-                int qtd = (int) field[1].get(obj);
-                double valor = (double) field[2].get(obj);
-                relatorio.append(String.format("Produto: %s | Quantidade Vendida: %d | Valor Total: R$ %.2f%n", nome, qtd, valor));
-            } catch (Exception ignored) {}
-        });
+    public static void gerarRelatorioTxt(Map<Produto, List<Double>> consolidado, double totalItens, double totalVendas) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== RELATÓRIO CONSOLIDADO DE VENDAS ===\n\n");
 
-        relatorio.append("\nQuantidade total de itens vendidos: ").append(totalItensVendidos)
-                .append("\nValor total das vendas: R$ ").append(String.format("%.2f", valorTotalGeral))
-                .append("\n");
+        for (Map.Entry<Produto, List<Double>> entry : consolidado.entrySet()) {
+            Produto produto = entry.getKey();
+            List<Double> dados = entry.getValue();
+            sb.append(String.format("Produto: %s | Quantidade Vendida: %.0f | Valor Total: R$ %.2f%n",
+                    produto.getNomeProduto(), dados.get(0), dados.get(1)));
+        }
 
-        System.out.println(relatorio);
+        sb.append("\nQuantidade total de itens vendidos: ").append(totalItens)
+          .append("\nValor total das vendas: R$ ").append(String.format("%.2f", totalVendas))
+          .append("\n");
 
-        try (FileWriter writer = new FileWriter("relatorios/relatorio_vendas.txt")) {
-            new java.io.File("relatorios").mkdirs();
-            writer.write(relatorio.toString());
-            System.out.println("Relatório salvo em: relatorios/relatorio_vendas.txt");
-        } catch (Exception e) {
-            System.out.println("Erro ao salvar relatório: " + e.getMessage());
+        System.out.println(sb.toString());
+
+        try {
+            java.io.File pasta = new java.io.File("relatorios");
+            if (!pasta.exists()) pasta.mkdir();
+
+            FileWriter writer = new FileWriter("relatorios/relatorio_vendas.txt");
+            writer.write(sb.toString());
+            writer.close();
+            System.out.println("Relatório gerado em: relatorios/relatorio_vendas.txt");
+        } catch (IOException e) {
+            System.out.println("Erro ao gerar o arquivo de relatório.");
         }
     }
 }
