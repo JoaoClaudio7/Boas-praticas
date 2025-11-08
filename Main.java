@@ -150,8 +150,8 @@ public class Main {
                     break;
 
                 case 6:
-                    System.out.println("Relatório consolidado não implementado aqui.");
-                    break;
+                    pedidoService.gerarRelatorioConsolidado();
+                     break;
 
                 case 7:
                     produtoService.listarTodosProdutos();
