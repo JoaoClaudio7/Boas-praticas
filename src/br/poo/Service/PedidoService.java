@@ -1,6 +1,7 @@
 package src.br.poo.Service;
 import java.util.*;
 import src.br.poo.Model.*;
+import src.br.poo.Utils.RelatorioUtils;
 
 public class PedidoService {
     private List<Pedido> pedidos = new ArrayList<>();
@@ -109,12 +110,8 @@ public class PedidoService {
 
         System.out.println(relatorio.toString());
 
-        try (java.io.FileWriter writer = new java.io.FileWriter("relatorio_vendas.txt")) {
-            writer.write(relatorio.toString());
-            System.out.println("\nRelatório salvo em: relatorio_vendas.txt");
-        } catch (Exception e) {
-            System.out.println("Erro ao salvar o relatório: " + e.getMessage());
-    }
+        src.br.poo.Utils.RelatorioUtils.salvarRelatorio(relatorio.toString());
+
 }
 
     private static class ProdutoResumo {
