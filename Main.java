@@ -149,9 +149,12 @@ public class Main {
                     pedidoService.listarTodasVendas();
                     break;
 
-                case 6:
-                    pedidoService.gerarRelatorioConsolidado();
-                     break;
+                case 6: {
+                    List<Pedido> listaDePedidos = pedidoService.getPedidos();
+                    RelatorioService relatorioService = new RelatorioService(listaDePedidos);
+                    relatorioService.gerarRelatorioConsolidado();
+                    break;
+                }
 
                 case 7:
                     produtoService.listarTodosProdutos();
