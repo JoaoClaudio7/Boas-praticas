@@ -89,7 +89,11 @@ public class PedidoService {
         System.out.println("\n=== RESUMO FINAL ===");
         System.out.println("Total geral de vendas: R$ " + String.format("%.2f", totalGeral));
     }
-
+    
+public List<Pedido> getPedidos() {
+        return this.pedidos;
+    }
+    
     private static class ProdutoResumo {
         String nomeProduto;
         int quantidadeVendida;
