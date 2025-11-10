@@ -6,14 +6,14 @@ import src.br.poo.Utils.RelatorioUtils;
 
 public class RelatorioService {
 
-    private final List<Pedido> pedidos;
+    private final List<Vendas> vendas;
 
-    public RelatorioService(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public RelatorioService(List<Vendas> vendas) {
+        this.vendas = vendas;
     }
 
     public void gerarRelatorioConsolidado() {
-        if (pedidos.isEmpty()) {
+        if (vendas.isEmpty()) {
             System.out.println("Nenhuma venda registrada.");
             return;
         }
@@ -22,7 +22,7 @@ public class RelatorioService {
         double valorTotalGeral = 0;
         int totalItensVendidos = 0;
 
-        for (Pedido pedido : pedidos) {
+        for (Vendas pedido : vendas) {
             for (ItemPedido item : pedido.getItens()) {
                 Produto produto = item.getProduto();
                 int codigo = produto.getCodigo();

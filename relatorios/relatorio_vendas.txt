@@ -1,0 +1,7 @@
+=== RELATÓRIO CONSOLIDADO DE VENDAS ===
+
+Produto: batata | Quantidade Vendida: 30 | Valor Total: R$ 90,00
+Produto: batata doce | Quantidade Vendida: 3 | Valor Total: R$ 60,00
+
+Quantidade total de itens vendidos: 33
+Valor total das vendas: R$ 150,00

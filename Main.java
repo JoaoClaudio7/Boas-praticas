@@ -1,19 +1,19 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import src.br.poo.Model.Pedido;
+import src.br.poo.Model.Vendas;
 import src.br.poo.Model.Produto;
-import src.br.poo.Service.PedidoService;
+import src.br.poo.Service.VendaService;
 import src.br.poo.Service.ProdutoService;
+import src.br.poo.Service.RelatorioService;
+
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         ProdutoService produtoService = new ProdutoService();
-        PedidoService pedidoService = new PedidoService();
-        List<Pedido> pedidos = new ArrayList<>();
+        VendaService vendaService = new VendaService();
 
         System.out.println("Bem vindo ao e-commerce\nEscolha as seguintes opções\n");
         int opcao = -1;
@@ -116,7 +116,8 @@ public class Main {
                 }
 
                 case 4: {
-                    Pedido pedido = new Pedido();
+                    Produto produto = new Produto();
+                    Vendas venda = new Vendas();
                     boolean continuarVenda = true;
 
                     while (continuarVenda) {
@@ -126,8 +127,11 @@ public class Main {
 
                         System.out.println("Digite a quantidade:");
                         int quantidadeVenda = Integer.parseInt(scanner.nextLine().trim());
+                        
+                        produto = produtoService.buscarProdutoPorCodigo(codigoProdutoVenda);
 
-                        boolean registrado = produtoService.registrarVenda(pedido, codigoProdutoVenda, quantidadeVenda);
+                        boolean registrado = vendaService.registrarVenda(produto, venda, quantidadeVenda);
+                        
                         if (!registrado) {
                             System.out.println("Não foi possível registrar o item. Deseja tentar outro produto? (s/n)");
                             String tenta = scanner.nextLine().trim();
@@ -140,22 +144,20 @@ public class Main {
                     }
 
                     System.out.println("\n=== VENDA FINALIZADA ===");
-                    System.out.println("Valor total da venda: R$ " + pedido.getValorTotal());
-                    pedidoService.adicionarNovoPedido(pedido, null);
+                    System.out.println("Valor total da venda: R$ " + venda.getValorTotal());
+                    
                     break;
                 }
                 case 5:
-                    System.out.println("\n=== LISTAGEM DE VENDAS ===");
-                    pedidoService.listarTodasVendas();
+                    vendaService.listarTodasVendas();
                     break;
 
                 case 6: {
-                    List<Pedido> listaDePedidos = pedidoService.getPedidos();
+                    List<Vendas> listaDePedidos = vendaService.getPedidos();
                     RelatorioService relatorioService = new RelatorioService(listaDePedidos);
                     relatorioService.gerarRelatorioConsolidado();
                     break;
                 }
-
                 case 7:
                     produtoService.listarTodosProdutos();
                     break;
