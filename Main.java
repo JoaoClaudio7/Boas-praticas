@@ -7,7 +7,6 @@ import src.br.poo.Service.VendaService;
 import src.br.poo.Service.ProdutoService;
 import src.br.poo.Service.RelatorioService;
 
-
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -41,6 +40,7 @@ public class Main {
                 case 1: {
                     System.out.print("Código do produto: ");
                     int codigo;
+                    
                     try {
                         codigo = Integer.parseInt(scanner.nextLine().trim());
                     } catch (NumberFormatException ex) {
