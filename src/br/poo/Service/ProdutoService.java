@@ -17,15 +17,15 @@ public class ProdutoService {
             return;
         }
 
-        for (Produto p : produtos) {
-            System.out.println("Nome: " + p.getNomeProduto() + " | Codigo: " + p.getCodigo() + " | Preço: " + p.getPreco()+ " | Estoque: " + p.getQuantidade());
+        for (Produto produto : produtos) {
+            System.out.println("Nome: " + produto.getNomeProduto() + " | Codigo: " + produto.getCodigo() + " | Preço: " + produto.getPreco()+ " | Estoque: " + produto.getQuantidade());
         }
     }
 
     public Produto buscarProdutoPorCodigo(int codigo) {
-        for (Produto p : produtos) {
-            if (p.getCodigo() == codigo) {
-                return p;
+        for (Produto produto : produtos) {
+            if (produto.getCodigo() == codigo) {
+                return produto;
             }
         }
         return null;
@@ -51,8 +51,8 @@ public class ProdutoService {
     }
 
     public boolean verificarProdutoExistente(int codigo) {
-        for (Produto p : produtos) {
-            if (p.getCodigo() == codigo) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo() == codigo) {
                 return true;
             }
         }
