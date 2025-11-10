@@ -17,6 +17,6 @@ Listagem de todas as vendas realizadas;
 Geração de relatório consolidado de vendas;
 Geração de relatório de estoque.
 
-Como compilar o sistema:
+Como compilar o sistema: No prompt de comando ou terminal, execute o comando javac nomeDoArquivo.java
 
-Como executar o sistema:
+Como executar o sistema:  Após a compilação bem-sucedida, execute o programa usando o comando java nomeDaClasse
