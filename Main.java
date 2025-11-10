@@ -40,7 +40,7 @@ public class Main {
                 case 1: {
                     System.out.print("Código do produto: ");
                     int codigo;
-                    
+
                     try {
                         codigo = Integer.parseInt(scanner.nextLine().trim());
                     } catch (NumberFormatException ex) {
@@ -77,40 +77,6 @@ public class Main {
                     Produto produto = new Produto(nomeProduto, codigo, preco, quantidade);
                     produtoService.adicionarProduto(produto);
                     break;
-
-                /*
-                private int lerInt(String prompt) {
-                    while (true) {
-                        System.out.print(prompt);
-                        String linha = scanner.nextLine().trim();
-                        try {
-                            return Integer.parseInt(linha);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Entrada inválida. Por favor, digite um número inteiro.");
-                        }
-                    }
-            }
-
-            private void cadastrarProduto() {
-                System.out.println("\n--- Cadastro de Produto ---");
-                int codigo = lerInt("Código do produto: "); 
-
-                double preco = lerDouble("Preço do produto: ");
-                int quantidade = lerInt("Quantidade inicial: ");
-                Produto produto = new Produto(nomeProduto, codigo, preco, quantidade);
-                    produtoService.adicionarProduto(produto);
-                    break;
-                
-            } 
-
-                switch (opcao) {
-                    case 1: cadastrarProduto(); break;
-                    case 2: listarProdutos(); break;
-                    case 3: entradaEstoque(); break;
-                    case 4: registrarVenda(); break;
-                
-                default: System.out.println("Opção inválida."); break;
-            } */
                 }
 
                 case 2:
